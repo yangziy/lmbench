@@ -7,6 +7,7 @@ TARGET=${TARGET-`../scripts/target`}
 BINDIR=../bin/"${OS}"
 CONFIG=../bin/"${OS}"/`../scripts/config`
 NULL=/dev/null
+CFLAGS="${CFLAGS} "`pkg-config libtirpc --cflags`
 
 BASE=/tmp/dummy
 for t in /usr/tmp /var/tmp /tmp; do
@@ -18,7 +19,7 @@ done
 
 trap 'rm -f ${BASE}$$.s ${BASE}$$.c ${BASE}$$.o ${BASE}$$; exit 1' 1 2 15
 
-LDLIBS=-lm
+LDLIBS="-lm "`pkg-config libtirpc --libs`
 
 # check for HP-UX's ANSI compiler
 echo "main(int ac, char *av[]) { int i; }" > ${BASE}$$.c
